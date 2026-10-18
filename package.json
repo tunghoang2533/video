@@ -1,0 +1,28 @@
+{
+  "name": "video-trien-thanh-thay-co-20-11",
+  "version": "1.0.0",
+  "description": "Pipeline tạo video AI \"Tri ân thầy cô 20/11\": ảnh AI + TTS tiếng Việt + nhạc nền tổng hợp + phụ đề, xuất MP4 1080p.",
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.mjs",
+    "build:fast": "node src/build.mjs --reuse",
+    "subs": "node src/build.mjs --subs-only"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tunghoang2533/video.git"
+  },
+  "keywords": [
+    "ai-video",
+    "tts",
+    "ffmpeg",
+    "teachers-day",
+    "vietnam"
+  ],
+  "author": "tunghoang2533",
+  "license": "MIT",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "ffprobe-installer": "^2.1.5"
+  }
+}
