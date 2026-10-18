@@ -12,6 +12,7 @@ import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { synthesizeMusic } from './music.mjs';
 import { buildAss, buildSrt, splitCues, scheduleCues } from './subtitles.mjs';
+import { renderMaskPng, makeParticleVideo, sceneFiltergraph } from './animate.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BUILD = join(ROOT, 'build');
@@ -76,9 +77,7 @@ function resolveFfprobe() {
     candidates.push(inst.path);
   } catch {}
   candidates.push('ffprobe');
-  const found = firstUsable(candidates);
-  if (!found) throw new Error('Không tìm thấy ffprobe.');
-  return found;
+  return firstUsable(candidates);
 }
 
 const require = (await import('node:module')).createRequire(import.meta.url);
@@ -86,14 +85,29 @@ let FFMPEG;
 let FFPROBE;
 
 async function probeDuration(file) {
-  const { stdout } = await new Promise((res, rej) => {
-    const p = spawn(FFPROBE, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]);
-    let o = '';
-    p.stdout.on('data', (d) => (o += d));
-    p.on('error', rej);
-    p.on('close', () => res({ stdout: o }));
+  if (FFPROBE) {
+    try {
+      const { stdout } = await new Promise((res, rej) => {
+        const p = spawn(FFPROBE, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]);
+        let o = '';
+        p.stdout.on('data', (d) => (o += d));
+        p.on('error', rej);
+        p.on('close', () => res({ stdout: o }));
+      });
+      const v = parseFloat(stdout.trim());
+      if (Number.isFinite(v)) return v;
+    } catch {}
+  }
+  // Dự phòng: đọc Duration từ stderr của ffmpeg
+  const { stderr } = await new Promise((res) => {
+    const p = spawn(FFMPEG, ['-i', file]);
+    let e = '';
+    p.stderr.on('data', (d) => (e += d));
+    p.on('close', () => res({ stderr: e }));
   });
-  return parseFloat(stdout.trim());
+  const m = /Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/.exec(stderr);
+  if (!m) throw new Error(`Không đọc được thời lượng của ${file}`);
+  return Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]);
 }
 
 const fmt = (n) => n.toFixed(3);
@@ -103,7 +117,7 @@ async function main() {
   FFMPEG = resolveFfmpeg();
   FFPROBE = resolveFfprobe();
   console.log(`🛠  ffmpeg : ${FFMPEG}`);
-  console.log(`🛠  ffprobe: ${FFPROBE}`);
+  console.log(`🛠  ffprobe: ${FFPROBE || '(dùng ffmpeg)'}`);
 
   const cfg = JSON.parse(readFileSync(join(ROOT, 'src/project.json'), 'utf8'));
   const { width: W, height: H, fps } = cfg;
@@ -179,6 +193,44 @@ async function main() {
       continue;
     }
     const N = Math.max(2, Math.round(seg.dur * fps));
+
+    if (seg.kind === 'scene' && seg.motion) {
+      // --- Chuyển động 2.5D: nền + lớp nhân vật (mặt nạ) + hạt bay ---
+      const maskFiles = [];
+      for (const [li, L] of (seg.motion.layers || []).entries()) {
+        const mf = join(BUILD, `mask${seg.id}_${li}.png`);
+        if (!(reuse && existsSync(mf))) await renderMaskPng(FFMPEG, { mask: L.mask, out: mf, W, H });
+        maskFiles.push(mf);
+      }
+      let partFile = null;
+      if (seg.motion.particles) {
+        const pc = seg.motion.particles;
+        partFile = join(BUILD, `particles_${pc.kind}_${pc.seed}.mov`);
+        if (!(reuse && existsSync(partFile))) {
+          await makeParticleVideo({
+            ffmpeg: FFMPEG, kind: pc.kind, out: partFile,
+            seconds: pc.seconds || 4, fps, seed: pc.seed || 1,
+          });
+        }
+      }
+      const { graph } = sceneFiltergraph({ seg, maskFiles, partFile, W, H, fps, dur: seg.dur });
+      const inputs = ['-loop', '1', '-framerate', String(fps), '-i', join(ROOT, seg.image)];
+      for (const mf of maskFiles) inputs.push('-loop', '1', '-i', mf);
+      if (partFile) inputs.push('-i', partFile);
+      const full = `${graph};[outv]${seg.grade},vignette=PI/5[final]`;
+      await run(
+        FFMPEG,
+        ['-y', ...inputs, '-filter_complex', full, '-map', '[final]', '-t', fmt(seg.dur),
+         '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
+         '-r', String(fps), '-an', out],
+        `render scene ${seg.id}`
+      );
+      segFiles.push(out);
+      console.log(`🎞  render ${i + 1}/${segments.length} (cảnh ${seg.id} — 2.5D + ${seg.motion.particles?.kind || 'hạt'}) — ${fmt(seg.dur)}s`);
+      continue;
+    }
+
+    // --- Thẻ tiêu đề: nền ảnh làm mờ + zoom chậm ---
     const kb = seg.kenburns || { z0: 1.0, z1: 1.08, px: 0.5, py: 0.5 };
     const dp = kb.dp ?? 0.06;
     const dy = kb.dy ?? 0.04;

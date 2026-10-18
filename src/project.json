@@ -9,73 +9,319 @@
   "tail": 1.4,
   "titleCard": {
     "duration": 4.5,
-    "image": "assets/scenes/scene05.jpg",
+    "image": "assets/scenes/motion05.jpg",
     "lines": [
-      { "style": "Title", "text": "TRI ÂN THẦY CÔ", "start": 0.35, "end": 3.6 },
-      { "style": "CardSub", "text": "Ngày 20 tháng 11 — Ngày tri ân những người đã gieo mầm xanh", "start": 1.5, "end": 3.6 }
+      {
+        "style": "Title",
+        "text": "TRI ÂN THẦY CÔ",
+        "start": 0.35,
+        "end": 3.6
+      },
+      {
+        "style": "CardSub",
+        "text": "Ngày 20 tháng 11 — Ngày tri ân những người đã gieo mầm xanh",
+        "start": 1.5,
+        "end": 3.6
+      }
     ]
   },
   "closingCard": {
     "duration": 6.0,
-    "image": "assets/scenes/scene06.jpg",
+    "image": "assets/scenes/motion06.jpg",
     "lines": [
-      { "style": "Title", "text": "HẠNH PHÚC NGÀY 20/11", "start": 0.4, "end": 4.6 },
-      { "style": "CardSub", "text": "Sức mẻ chúng em gửi đến thầy cô, dù có bao nhiêu ngày qua đi nữa", "start": 1.6, "end": 4.6 }
+      {
+        "style": "Title",
+        "text": "HẠNH PHÚC NGÀY 20/11",
+        "start": 0.4,
+        "end": 4.6
+      },
+      {
+        "style": "CardSub",
+        "text": "Sức mẻ chúng em gửi đến thầy cô, dù có bao nhiêu ngày qua đi nữa",
+        "start": 1.6,
+        "end": 4.6
+      }
     ]
   },
   "scenes": [
     {
       "id": 1,
-      "image": "assets/scenes/scene01.jpg",
+      "image": "assets/scenes/motion01.jpg",
       "audio": "assets/vo/scene01.mp3",
       "transition": "fade",
-      "kenburns": { "z0": 1.0, "z1": 1.12, "px": 0.5, "py": 0.45 },
       "grade": "eq=saturation=1.10:contrast=1.05:brightness=-0.01,colorbalance=rs=0.04:gs=0.01:bs=-0.03",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.04,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.55,
+              "cy": 0.66,
+              "rx": 0.17,
+              "ry": 0.4
+            },
+            "z0": 1.0,
+            "z1": 1.11,
+            "px": 0.55,
+            "py": 0.62,
+            "sway": {
+              "ax": 14,
+              "ay": 13,
+              "period": 1.9
+            }
+          }
+        ],
+        "particles": {
+          "kind": "leaves",
+          "opacity": 0.9,
+          "seconds": 4,
+          "seed": 11
+        }
+      },
       "narration": "Có một ngày mỗi năm, tháng Mười Một về, chúng ta lại bước vào một ngày đặc biệt. Đó là ngày tri ân những người đã âm thầm trồng cây, gieo hạt trong tâm hồn chúng ta."
     },
     {
       "id": 2,
-      "image": "assets/scenes/scene02.jpg",
+      "image": "assets/scenes/motion02.jpg",
       "audio": "assets/vo/scene02.mp3",
       "transition": "smoothleft",
-      "kenburns": { "z0": 1.02, "z1": 1.14, "px": 0.3, "py": 0.5 },
       "grade": "eq=saturation=1.06:contrast=1.06:brightness=-0.01,colorbalance=rs=0.05:gs=0.02:bs=-0.04",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.05,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.5,
+              "cy": 0.42,
+              "rx": 0.42,
+              "ry": 0.32
+            },
+            "z0": 1.0,
+            "z1": 1.08,
+            "px": 0.5,
+            "py": 0.44,
+            "sway": {
+              "ax": 22,
+              "ay": 9,
+              "period": 1.4
+            }
+          }
+        ],
+        "particles": {
+          "kind": "dust",
+          "opacity": 0.8,
+          "seconds": 4,
+          "seed": 22
+        }
+      },
       "narration": "Thầy cô là những người lặng lẽ, đem cả tâm huyết gieo từng hạt giống nhỏ bé, để rồi những hạt giống ấy nở hoa trong từng thế hệ."
     },
     {
       "id": 3,
-      "image": "assets/scenes/scene03.jpg",
+      "image": "assets/scenes/motion03.jpg",
       "audio": "assets/vo/scene03.mp3",
       "transition": "dissolve",
-      "kenburns": { "z0": 1.14, "z1": 1.02, "px": 0.5, "py": 0.4 },
-      "grade": "eq=saturation=1.04:contrast=1.08:brightness=-0.03,colorbalance=rs=0.02:gs=0.0:bs=-0.05",
+      "grade": "eq=saturation=1.04:contrast=1.08:brightness=-0.02,colorbalance=rs=0.02:gs=0.0:bs=-0.05",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.05,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.42,
+              "cy": 0.52,
+              "rx": 0.18,
+              "ry": 0.45
+            },
+            "z0": 1.0,
+            "z1": 1.12,
+            "px": 0.42,
+            "py": 0.52,
+            "sway": {
+              "ax": 26,
+              "ay": 11,
+              "period": 2.4
+            }
+          }
+        ],
+        "particles": {
+          "kind": "dust",
+          "opacity": 0.9,
+          "seconds": 4,
+          "seed": 33
+        }
+      },
       "narration": "Bảng đen, phấn trắng, và những buổi sớm chúng ta vội vã chạy tới lớp. Nhưng phía sau mỗi bài giảng, là cả những đêm thức khuya lặng lẽ."
     },
     {
       "id": 4,
-      "image": "assets/scenes/scene04.jpg",
+      "image": "assets/scenes/motion04.jpg",
       "audio": "assets/vo/scene04.mp3",
       "transition": "smoothright",
-      "kenburns": { "z0": 1.0, "z1": 1.1, "px": 0.25, "py": 0.5 },
       "grade": "eq=saturation=1.12:contrast=1.04:brightness=0.0,colorbalance=rs=0.03:gs=0.01:bs=-0.02",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.05,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.4,
+              "cy": 0.45,
+              "rx": 0.24,
+              "ry": 0.5
+            },
+            "z0": 1.0,
+            "z1": 1.09,
+            "px": 0.4,
+            "py": 0.45,
+            "sway": {
+              "ax": 13,
+              "ay": 10,
+              "period": 2.2
+            }
+          }
+        ],
+        "particles": {
+          "kind": "bokeh",
+          "opacity": 0.7,
+          "seconds": 4,
+          "seed": 44
+        }
+      },
       "narration": "Hai mươi tháng Mười, cả trường học ngập trong sắc đỏ, trong tiếng nhạc, trong những bó hoa tươi thắm dâng lên những đôi tay đã mỏi mệt."
     },
     {
       "id": 5,
-      "image": "assets/scenes/scene05.jpg",
+      "image": "assets/scenes/motion05.jpg",
       "audio": "assets/vo/scene05.mp3",
       "transition": "fade",
-      "kenburns": { "z0": 1.03, "z1": 1.15, "px": 0.6, "py": 0.5 },
       "grade": "eq=saturation=1.14:contrast=1.05:brightness=-0.01,colorbalance=rs=0.05:gs=0.01:bs=-0.04",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.04,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.33,
+              "cy": 0.3,
+              "rx": 0.24,
+              "ry": 0.29
+            },
+            "z0": 1.0,
+            "z1": 1.1,
+            "px": 0.33,
+            "py": 0.3,
+            "sway": {
+              "ax": 30,
+              "ay": 7,
+              "period": 1.5
+            }
+          },
+          {
+            "mask": {
+              "cx": 0.64,
+              "cy": 0.6,
+              "rx": 0.31,
+              "ry": 0.35
+            },
+            "z0": 1.0,
+            "z1": 1.05,
+            "px": 0.66,
+            "py": 0.62,
+            "sway": {
+              "ax": 9,
+              "ay": 7,
+              "period": 2.6
+            }
+          }
+        ],
+        "particles": {
+          "kind": "bokeh",
+          "opacity": 0.8,
+          "seconds": 4,
+          "seed": 55
+        }
+      },
       "narration": "Cảm ơn thầy cô, vì những bài học còn ở lại. Cảm ơn thầy cô, vì lời khuyên lúc chúng ta còn lầm lỡ, và vì cả những lần thầy chịu lặng lẽ vì chúng ta."
     },
     {
       "id": 6,
-      "image": "assets/scenes/scene06.jpg",
+      "image": "assets/scenes/motion06.jpg",
       "audio": "assets/vo/scene06.mp3",
       "transition": "smoothup",
-      "kenburns": { "z0": 1.0, "z1": 1.12, "px": 0.55, "py": 0.35 },
       "grade": "eq=saturation=1.08:contrast=1.05:brightness=-0.005,colorbalance=rs=0.04:gs=0.02:bs=-0.03",
+      "motion": {
+        "bg": {
+          "z0": 1.0,
+          "z1": 1.04,
+          "px": 0.5,
+          "py": 0.5
+        },
+        "layers": [
+          {
+            "mask": {
+              "cx": 0.47,
+              "cy": 0.45,
+              "rx": 0.24,
+              "ry": 0.49
+            },
+            "z0": 1.0,
+            "z1": 1.08,
+            "px": 0.47,
+            "py": 0.45,
+            "sway": {
+              "ax": 11,
+              "ay": 8,
+              "period": 2.8
+            }
+          },
+          {
+            "mask": {
+              "cx": 0.65,
+              "cy": 0.66,
+              "rx": 0.25,
+              "ry": 0.3
+            },
+            "z0": 1.0,
+            "z1": 1.06,
+            "px": 0.66,
+            "py": 0.68,
+            "sway": {
+              "ax": 18,
+              "ay": 10,
+              "period": 1.5
+            }
+          }
+        ],
+        "particles": {
+          "kind": "spark",
+          "opacity": 0.8,
+          "seconds": 4,
+          "seed": 66
+        }
+      },
       "narration": "Ngày này, xin gửi đến thầy cô lời tri ân chân thành nhất. Sức mẻ chúng em gửi đến, dù có bao nhiêu ngày qua đi nữa."
     }
   ]
